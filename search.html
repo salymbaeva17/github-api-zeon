@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Github Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<header class="container">
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid p-0">
+            <a href="#" class="col-md-3 text-decoration-none navbar-brand header__logo">GitHub Users</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon fs-5 shadow-none p-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path
+                            d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <a href="./search.html" id="search" type="button"
+                   class="btn btn-dark me-4 px-5 fw-bold border-2">Search</a>
+                <a href="./favorites.html" id="favorites" type="button"
+                   class="btn btn-outline-dark px-5 fw-bold border-2">Favorites</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<main class="main">
+    <section class="search">
+        <article class="search-bar">
+            <div class="container-sm container">
+                <div class="row g-3">
+                    <h1>Search for Github users</h1>
+                    <div class="col-md-5 col-sm-4 me-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control username" id="username">
+                            <label for="username">Username</label>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="form-floating">
+                            <select class="form-select sort" id="sort">
+                                <option selected>followers</option>
+                                <option>repositories</option>
+                                <option>joined</option>
+                            </select>
+                            <label for="sort">Sort</label>
+                        </div>
+                    </div>
+                    <div class="col-sm form-floating">
+                        <div class="form-floating">
+                            <select class="form-select order" id="order">
+                                <option selected>desc</option>
+                                <option value="1">asc</option>
+                            </select>
+                            <label for="order">Order</label>
+                        </div>
+                    </div>
+                    <div class="col-md col-sm-2">
+                        <div class="form-floating mb-3">
+                            <input type="number" min="1" class="form-control per-page" id="count" placeholder="1">
+                            <label for="count">Per page</label>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button id="search-btn" class="btn btn-success btn-lg" type="button">Search User</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="results">
+            <div class="container results__container">
+                <h1 class="results__title">Results</h1>
+                <div class="row" id="row"></div>
+            </div>
+        </article>
+        <article class="pagination mt-5">
+            <div class="container">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item col-md col-sm-2">
+                            <a class="page-link text-dark" href="#" tabindex="-1">&#10094; Prev</a>
+                        </li>
+                        <li class="page-item col-sm-1">
+                            <input type="number" min="1" class="form-control" placeholder="1">
+                        </li>
+                        <li class="page-item col-md col-sm-2">
+                            <a class="page-link d-flex justify-content-end text-dark" href="#">Next &#10095;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </article>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
