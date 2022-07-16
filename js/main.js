@@ -4,25 +4,30 @@ const order = document.getElementById('order')
 const sort = document.getElementById('sort')
 const searchBtn = document.getElementById('search-btn')
 const row = document.getElementById('row')
-const rowFav = document.getElementById('row-fav')
-
+const prevBtn = document.querySelector(".prev-page")
+const nextBtn = document.querySelector(".next-page")
+let itemNumber = 0;
+let limit = perPage.value
 
 searchBtn.addEventListener('click', () => {
     row.innerHTML = ''
-    fetch(`https://api.github.com/search/users?q=${username.value}&order=${order}&sort=${sort}&per_page=${perPage.value}`)
+
+    fetch(`https://api.github.com/search/users?q=${username.value}in:user&order=${order.value}&sort=${sort.value}&page=${itemNumber}&per_page=${perPage.value}`)
         .then(res => res.json())
         .then(data => {
-            data.items.forEach(item => {
-                console.log(item)
-                row.innerHTML += `<div id="user" class="row row-cols-1 mt-4 bg-light p-4 mx-0 rounded-2 align-items-center">
+            data.total_count === 0 ? row.innerHTML = `<h5>No such results!</h5>` :
+                data?.items?.forEach(item => {
+                    const {avatar_url, html_url, login} = item
+                    row.innerHTML += !item ? ` <div id="loader"></div>`
+                        : `<div id="user" class="row row-cols-1 mt-4 bg-light p-4 mx-0 rounded-2 align-items-center">
                         <div class="col-md-1">
-                            <img id='user-avatar' src=${item.avatar_url} class="img-fluid rounded-start" alt="user image">
+                            <img id='user-avatar' src=${avatar_url} class="img-fluid rounded-start" alt="user image">
                         </div>
                         <div class="col-md">
                             <div class="card-body d-flex justify-content-between p-0">
                                 <div class="d-flex flex-column justify-content-between">
-                                    <h5 class="card-title">${item.login}</h5>
-                                    <a href=${item.html_url} target="_blank" class="card-text">Link to GitHub</a>
+                                    <h5 class="card-title">${login}</h5>
+                                    <a href=${html_url} target="_blank" class="card-text">Link to GitHub</a>
                                 </div>
                                 <div class="d-flex flex-column justify-content-between">
                                     <button class="btn btn-secondary p-1 mb-2 favorite">
@@ -35,6 +40,55 @@ searchBtn.addEventListener('click', () => {
                             </div>
                         </div>
                     </div>`
-            })
+                })
         })
 })
+
+
+prevBtn.disabled = itemNumber <= 0;
+nextBtn.disabled = itemNumber
+
+function createPostList(result) {
+
+    let start = limit * itemNumber;
+    let end = (itemNumber + 1) * limit;
+    let partDisplayed = result.items?.slice(start, end);
+    if (end > result.total_count) {
+        end = result.total_count;
+    }
+
+
+    if (itemNumber <= 0) {
+        prevBtn.disabled = true;
+    } else {
+        prevBtn.disabled = false;
+    }
+
+    const lastPage = result.total_count / limit;
+    if (itemNumber + 1 >= lastPage) {
+        nextBtn.disabled = true;
+    } else {
+        nextBtn.disabled = false;
+    }
+
+
+}
+
+
+prevBtn.addEventListener("click", function () {
+    row.innerHTML = "";
+    itemNumber -= 1;
+    createPostList(fetch(`https://api.github.com/search/users?q=${username.value}&order=${order.value}&sort=${sort.value}&page=${itemNumber}&per_page=${perPage.value}`)
+        .then(res => res.json())
+        .then(data => data)
+    )
+});
+
+nextBtn.addEventListener("click", function () {
+    row.innerHTML = "";
+    itemNumber += 1;
+    createPostList(fetch(`https://api.github.com/search/users?q=${username.value}&order=${order.value}&sort=${sort.value}&page=${itemNumber}&per_page=${perPage.value}`)
+        .then(res => res.json())
+        .then(data => data)
+    )
+});
